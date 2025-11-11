@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - GhostBD Tournament</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Oxanium:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {
+            background: #0a0e17;
+            color: #fff;
+            font-family: 'Oxanium', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(28, 58, 122, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(139, 31, 74, 0.1) 0%, transparent 20%);
+        }
+        .login-container {
+            background: rgba(16, 21, 34, 0.95);
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid rgba(255, 69, 58, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 10;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff453a, #ff375f);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transform: rotate(-15deg);
+        }
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 28px;
+            background: linear-gradient(to right, #ff453a, #ff375f, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 69, 58, 0.5);
+        }
+        .login-container h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #ff453a;
+        }
+        .login-container h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: #a0a8c3;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .form-group { text-align: left; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a0a8c3;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 69, 58, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
+        }
+        .login-btn {
+            background: linear-gradient(135deg, #ff453a, #ff375f);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 69, 58, 0.6);
+        }
+        .back-to-home {
+            color: #a0a8c3;
+            margin-top: 20px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .back-to-home:hover { color: #ff453a; }
+        
+        /* Preloader Styles */
+        .preloader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 23, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .preloader.active {
+            display: flex;
+        }
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid rgba(255, 69, 58, 0.3);
+            border-top: 5px solid #ff453a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        .preloader-text {
+            font-family: 'Orbitron', sans-serif;
+            color: #ff453a;
+            font-size: 1.2rem;
+        }
+        
+        /* Success Popup Styles */
+        .success-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 23, 0.9);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+        .success-popup.active {
+            display: flex;
+        }
+        .popup-content {
+            background: rgba(16, 21, 34, 0.95);
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid rgba(255, 69, 58, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        .success-icon {
+            font-size: 4rem;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        .popup-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #ffcc00;
+        }
+        .popup-content p {
+            color: #a0a8c3;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <div class="logo-icon"><i class="fas fa-ghost"></i></div>
+            <div class="logo-text">GHOSTBD</div>
+        </div>
+        <h2>Join GhostBD FF Tournament</h2>
+        <h4>Connect Your FF Account via Facebook</h4>
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="email">Username or Email</label>
+                <input type="text" id="email" placeholder="Enter your username or email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <div class="form-group">
+                <label for="uid">Game UID</label>
+                <input type="text" id="uid" placeholder="Enter your FF UID" required>
+            </div>
+            <button type="submit" class="login-btn">JOIN</button>
+        </form>
+        <p class="back-to-home" id="backToHome">Back to Home</p>
+    </div>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="spinner"></div>
+        <div class="preloader-text">Processing Your Request...</div>
+    </div>
+
+    <!-- Success Popup -->
+    <div class="success-popup" id="successPopup">
+        <div class="popup-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Registration Successful!</h2>
+            <p>Your joining request has been accepted. We will notify you after verifying your ID. You will be redirected to the home page shortly.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('backToHome').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const uid = document.getElementById('uid').value.trim();
+
+            // Show preloader
+            document.getElementById('preloader').classList.add('active');
+
+            // Simulate processing delay
+            setTimeout(() => {
+                // Hide preloader
+                document.getElementById('preloader').classList.remove('active');
+                
+                // Show success popup
+                document.getElementById('successPopup').classList.add('active');
+                
+                // Redirect to home page after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 3000);
+                
+            }, 2000); // 2 seconds loading time
+        });
+    </script>
+</body>
+</html>
